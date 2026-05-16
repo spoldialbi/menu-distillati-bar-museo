@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bar Museo · Carta dei Distillati</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f0;
+    --bg-soft: #f3ece1;
+    --card: #ffffff;
+    --border: #e8ddcc;
+    --text: #2a2018;
+    --muted: #7a6b5c;
+    --accent: #a13c33;
+    --accent-dark: #7a2c25;
+    --accent-soft: #c4554a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at top, rgba(161, 60, 51, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(161, 60, 51, 0.03) 0%, transparent 50%);
+  }
+
+  header {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header .logo {
+    max-width: 280px;
+    width: 60%;
+    height: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  header .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  header h1 em { font-style: italic; color: var(--accent); }
+
+  header .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+
+  nav.categories {
+    position: sticky;
+    top: 0;
+    background: rgba(250, 246, 240, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+    z-index: 100;
+  }
+
+  nav.categories ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  nav.categories a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav.categories a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .section-divider {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .section-divider .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
+  }
+
+  .section-divider .ornament-mark {
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .category {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .category-title { text-align: center; margin-bottom: 3rem; }
+
+  .category-title .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .category-title .ornament::before,
+  .category-title .ornament::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .category-title .ornament span {
+    color: var(--accent);
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .category-title h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--text);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 500px) { .grid { grid-template-columns: 1fr; gap: 1.25rem; } }
+
+  .item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-soft);
+    box-shadow: 0 10px 30px rgba(161, 60, 51, 0.08);
+  }
+
+  .item .image {
+    aspect-ratio: 1 / 1;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem;
+  }
+
+  /* Immagine: nascosta finché non viene trovata l'estensione corretta.
+     object-fit: contain mostra l'intera bottiglia senza ritagli. */
+  .item .image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: none;
+  }
+
+  .item .image img.loaded { display: block; }
+
+  .item .image .placeholder {
+    color: var(--accent-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1rem;
+    opacity: 0.6;
+  }
+
+  .item .image img.loaded + .placeholder { display: none; }
+
+  .item .content {
+    padding: 1.25rem 1rem 1.5rem;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-soft);
+  }
+
+  .item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+
+  .item .origin {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .item .description {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.55;
+    font-weight: 300;
+    flex: 1;
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  footer .mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Bar Museo" class="logo">
+  <div class="eyebrow">La nostra selezione</div>
+  <h1>Carta dei <em>Distillati</em></h1>
+  <div class="subtitle">Una selezione ricercata dalle migliori distillerie</div>
+</header>
+
+<nav class="categories">
+  <ul>
+    <li><a href="#gin">Gin</a></li>
+    <li><a href="#whiskey">Whiskey</a></li>
+    <li><a href="#rum">Rum</a></li>
+    <li><a href="#amari">Amari</a></li>
+    <li><a href="#grappe">Grappe</a></li>
+  </ul>
+</nav>
+
+<!-- SEZIONE GIN -->
+<section class="category" id="gin">
+  <div class="category-title">
+    <div class="ornament"><span>Capitolo I</span></div>
+    <h2>Gin</h2>
+  </div>
+
+  <div class="grid">
+
+    <article class="item" data-img="immagini/gin/roku">
+      <div class="image"><img alt="Roku Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Roku</h3>
+        <div class="origin">Giappone · 43%</div>
+        <p class="description">Gin artigianale di Suntory che unisce otto botaniche tradizionali a sei giapponesi: fiore e foglia di sakura, tè sencha e gyokuro, scorza di yuzu e pepe sansho. Profilo floreale, agrumato e armonico, con un finale leggermente piccante.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/etsu">
+      <div class="image"><img alt="Etsu Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Etsu</h3>
+        <div class="origin">Giappone · 43%</div>
+        <p class="description">Distillato a Hokkaido nella distilleria Asahikawa con acqua delle montagne Taisetsu. Botaniche di ginepro, yuzu, scorza d'arancia amara, tè, coriandolo, angelica e liquirizia. Sorso pulito, fresco, dalle eleganti note agrumate e floreali.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/tenjaku">
+      <div class="image"><img alt="Tenjaku Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Tenjaku</h3>
+        <div class="origin">Giappone · 40%</div>
+        <p class="description">Craft gin prodotto a Fuefuki, ai piedi del monte Fuji. Combina oltre dieci botaniche occidentali con yuzu, pepe sansho, tè verde ed estratto di pesca della regione di Yamanashi. Aromatico, fresco ed equilibrato, ideale in miscelazione.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/bombay">
+      <div class="image"><img alt="Bombay Original Dry"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Bombay Original Dry</h3>
+        <div class="origin">Inghilterra · 37,5%</div>
+        <p class="description">Classico London Dry Gin distillato con otto botaniche selezionate: ginepro, coriandolo, scorza di limone, liquirizia, angelica, iris, mandorla e cassia. Profilo pulito, secco e tradizionale, perfetto per cocktail classici.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/bombay_sapphire">
+      <div class="image"><img alt="Bombay Sapphire"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Bombay Sapphire</h3>
+        <div class="origin">Inghilterra · 40%</div>
+        <p class="description">Iconico London Dry dalla bottiglia azzurra, distillato con dieci botaniche tramite il metodo Vapour Infusion: ginepro, coriandolo, scorza di limone, liquirizia, mandorla, iris, angelica, cassia, cubebe e grani del paradiso. Floreale, fresco ed elegante.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/plymouth">
+      <div class="image"><img alt="Plymouth Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Plymouth</h3>
+        <div class="origin">Inghilterra · 41,2%</div>
+        <p class="description">Storico gin inglese prodotto dal 1793 nella Black Friars Distillery di Plymouth. Sette botaniche, tra cui radice di iris, angelica, coriandolo e cardamomo verde. Stile leggermente più morbido e terroso del London Dry, con corpo pieno e finale rotondo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/tanqueray">
+      <div class="image"><img alt="Tanqueray London Dry"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Tanqueray</h3>
+        <div class="origin">Scozia · 43,1%</div>
+        <p class="description">London Dry Gin di riferimento, distillato quattro volte secondo una ricetta del 1830. Solo quattro botaniche: ginepro, coriandolo, angelica e liquirizia. Profilo netto, secco, dominato dal ginepro: il classico tra i classici.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/tanqueray_ten">
+      <div class="image"><img alt="Tanqueray No. Ten"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Tanqueray N° Ten</h3>
+        <div class="origin">Scozia · 47,3%</div>
+        <p class="description">Versione premium di Tanqueray, distillata nel piccolo alambicco "Tiny Ten" con agrumi freschi: pompelmo, lime, arancia e fiori di camomilla. Vivace, agrumato e setoso, considerato uno dei migliori gin per il Martini.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/n_3">
+      <div class="image"><img alt="N° 3 London Dry Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>N° 3 London Dry</h3>
+        <div class="origin">Paesi Bassi · 46%</div>
+        <p class="description">Distillato in Olanda per la storica casa londinese Berry Bros. & Rudd. Sole sei botaniche di altissima qualità: ginepro, coriandolo, angelica, scorza di arancia, pompelmo e cardamomo. Pulito, deciso, costruito attorno al ginepro: gin da Martini per eccellenza.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/hendricks">
+      <div class="image"><img alt="Hendrick's Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Hendrick's</h3>
+        <div class="origin">Scozia · 41,4%</div>
+        <p class="description">Gin scozzese distillato con undici botaniche e arricchito da infusioni post-distillazione di petali di rosa bulgara e cetriolo. Profilo floreale, delicato e inconfondibile, da servire idealmente con una fettina di cetriolo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/farmers_botanical">
+      <div class="image"><img alt="Farmer's Botanical Organic"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Farmer's Botanical</h3>
+        <div class="origin">Stati Uniti · 46,7%</div>
+        <p class="description">Small batch gin biologico certificato USDA, prodotto in Idaho da grano coltivato sostenibilmente. Botaniche organiche di ginepro, fiori di sambuco, citronella, coriandolo e radice di angelica. Floreale, fresco e morbido.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/london_n_1">
+      <div class="image"><img alt="The London N° 1 Original Blue Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>The London N° 1</h3>
+        <div class="origin">Inghilterra · 47%</div>
+        <p class="description">Original Blue Gin dal caratteristico colore turchese, ottenuto naturalmente dall'infusione di gardenia. Dodici botaniche tra cui ginepro, coriandolo, angelica, liquirizia, scorza di agrumi, mandorla, cassia e iris. Elegante, complesso e leggermente dolce.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/gin_mg">
+      <div class="image"><img alt="Gin Mazzetti"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Gin MG</h3>
+        <div class="origin">Spagna · 40%</div>
+        <p class="description">Storico London Dry Gin spagnolo lanciato nel 1940 dalla famiglia Giró Ribot a Vilanova i la Geltrú, vicino a Barcellona. Tra i gin più venduti in Spagna, viene prodotto per doppia distillazione in alambicchi disegnati nel 1942 da Manuel Giró Carlos. Le bacche di ginepro selvatico provengono dalla tenuta di proprietà a Teruel. Profilo elegante e classico con note di ginepro, erba fresca, balsamico e leggero limone.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/gin_mare">
+      <div class="image"><img alt="Gin Mare"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Gin Mare</h3>
+        <div class="origin">Spagna · 42,7%</div>
+        <p class="description">Mediterranean gin distillato in Catalogna con botaniche tipiche della macchia mediterranea: oliva arbequina, rosmarino, timo, basilico, cardamomo, coriandolo e agrumi. Erbaceo, salino e marcatamente mediterraneo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/fifty_pounds">
+      <div class="image"><img alt="Fifty Pounds Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Fifty Pounds</h3>
+        <div class="origin">Inghilterra · 43,5%</div>
+        <p class="description">London Dry Gin ispirato al 1736, anno della famosa tassa sui distillati di 50 sterline. Undici botaniche distillate in piccoli batch e affinate per tre settimane prima dell'imbottigliamento. Equilibrato, classico, dal profilo morbido e raffinato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/bulldog">
+      <div class="image"><img alt="Bulldog Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Bulldog</h3>
+        <div class="origin">Inghilterra · 40%</div>
+        <p class="description">London Dry Gin contemporaneo a quadrupla distillazione, con dodici botaniche da otto Paesi. Tra le più caratteristiche: occhio di drago (longan), foglie di loto, lavanda, papavero bianco, citronella e mandorla. Morbido, lievemente speziato e versatile.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/opihr">
+      <div class="image"><img alt="Opihr Oriental Spiced Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Opihr</h3>
+        <div class="origin">Inghilterra · 40%</div>
+        <p class="description">Oriental Spiced Gin ispirato alle antiche vie delle spezie. Botaniche provenienti da tutto il mondo: pepe nero di Tellicherry, cumino indiano, cardamomo, coriandolo marocchino, semi di pompelmo e zenzero. Speziato, esotico e avvolgente.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/dodds">
+      <div class="image"><img alt="Dodd's Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Dodd's</h3>
+        <div class="origin">Inghilterra · 49,9%</div>
+        <p class="description">Gin biologico della London Distillery Company, prodotto in piccoli batch a Battersea. Otto botaniche organiche: ginepro, angelica, scorza fresca di lime, cardamomo verde e nero, alloro, foglie di lampone e miele della London Honey Company. Strutturato e raffinato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/gunpowder">
+      <div class="image"><img alt="Drumshanbo Gunpowder Irish Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Gunpowder</h3>
+        <div class="origin">Irlanda · 43%</div>
+        <p class="description">Drumshanbo Gunpowder Irish Gin distillato lentamente in piccoli alambicchi nella contea di Leitrim. Caratterizzato dal tè verde Gunpowder cinese, unito a coriandolo, cardamomo, agrumi orientali (yuzu, limone Meyer, pompelmo) e bacche di sorbo. Fresco, speziato ed agrumato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/gunpowder_sardinian">
+      <div class="image"><img alt="Gunpowder Sardinian Citrus"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Gunpowder Sardinian Citrus</h3>
+        <div class="origin">Irlanda · 43%</div>
+        <p class="description">Espressione speciale di Gunpowder con l'aggiunta di agrumi sardi: arancia, limone e pompelmo della Sardegna. Mantiene il cuore di tè Gunpowder e ginepro, con un'esplosione agrumata mediterranea pulita e intensa.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/citadelle">
+      <div class="image"><img alt="Citadelle Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Citadelle</h3>
+        <div class="origin">Francia · 44%</div>
+        <p class="description">Storico gin francese della Maison Ferrand, distillato in alambicchi Charentais a fiamma viva. Diciannove botaniche da diciassette Paesi: ginepro, coriandolo, cardamomo, fiori di violetta, anice stellato, fave di tonka e altre. Complesso, floreale e finemente speziato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/apium">
+      <div class="image"><img alt="Apium London Dry Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Apium</h3>
+        <div class="origin">Inghilterra · 40%</div>
+        <p class="description">London Dry distillato in Inghilterra con un profilo aromatico distintivo. Botaniche di ginepro, fiori di lavanda, pepe di cubeba, rosmarino, angelica, verbena e coriandolo. Delicato e morbido, con un caratteristico finale floreale di lavanda.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/apium_grapefruit">
+      <div class="image"><img alt="Apium Grapefruit Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Apium Grapefruit</h3>
+        <div class="origin">Inghilterra · 40%</div>
+        <p class="description">Espressione agrumata di Apium, in cui il pompelmo è protagonista accanto a ginepro ed erbe aromatiche. Al naso fresco e vivace, al palato esplosione agrumata bilanciata da delicate note erbacee. Finale secco e rinfrescante.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/theresianer">
+      <div class="image"><img alt="Theresianer Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Theresianer</h3>
+        <div class="origin">Italia · 40%</div>
+        <p class="description">Gin italiano della storica birreria Theresianer, dove tradizione brassicola incontra distillazione. Connubio originale di luppolo, agrumi (pompelmo, mandarino) e cardamomo, con ginepro distillato separatamente. Profilo speziato, resinoso e fresco.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/bathtub">
+      <div class="image"><img alt="Bathtub Gin Ableforth's"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Bathtub Gin</h3>
+        <div class="origin">Inghilterra · 43,3%</div>
+        <p class="description">Gin artigianale di Ableforth's prodotto con il metodo della cold compound infusion. Sei botaniche selezionate: ginepro, scorza d'arancia, coriandolo, cassia, cardamomo e chiodi di garofano. Profilo intenso e morbido, dal caratteristico colore paglierino.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/martin_millers">
+      <div class="image"><img alt="Martin Miller's Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Martin Miller's</h3>
+        <div class="origin">Inghilterra · 40%</div>
+        <p class="description">London Dry distillato in Inghilterra ma tagliato con acqua glaciale islandese, considerata tra le più pure al mondo. Dieci botaniche tra cui ginepro toscano, coriandolo, cassia, scorza di agrumi e cetriolo. Pulito, morbido ed equilibrato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/brooklyn">
+      <div class="image"><img alt="Brooklyn Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Brooklyn</h3>
+        <div class="origin">Stati Uniti · 40%</div>
+        <p class="description">Craft gin americano prodotto in piccoli lotti con agrumi freschi (non essiccati) pelati a mano. Undici botaniche tra cui ginepro, scorze di limone, lime e arancia, semi di cacao, fiori di lavanda e foglie di menta. Fresco, vibrante e contemporaneo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/giniu">
+      <div class="image"><img alt="Giniu Gin Silvio Carta"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Giniu</h3>
+        <div class="origin">Italia · Sardegna · 40%</div>
+        <p class="description">Gin sardo della distilleria Silvio Carta, prodotto in Oristano. Ottenuto da galbuli di ginepro sardo e botaniche della macchia mediterranea. Velluto, equilibrato, con note salmastre e iodate che richiamano direttamente il mare e la terra sarda.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/osmoz">
+      <div class="image"><img alt="Osmoz Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Osmoz</h3>
+        <div class="origin">Francia · 40%</div>
+        <p class="description">Gin francese firmato Maison Villevert (gli stessi di Citadelle), pensato per la mixology contemporanea. Bilanciato e leggermente floreale, con note agrumate e di ginepro elegante. Profilo morbido e versatile, ideale come base per cocktail.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/portofino">
+      <div class="image"><img alt="Portofino Dry Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Portofino Dry Gin</h3>
+        <div class="origin">Italia · Liguria · 43%</div>
+        <p class="description">Gin ispirato alle estati mediterranee della Riviera Ligure. Botaniche fresche coltivate localmente: ginepro, scorze di limone e mandarino, lavanda, rosmarino, menta, salvia, maggiorana e fiori di camomilla. Elegante, floreale e marcatamente mediterraneo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/the_illusionist">
+      <div class="image"><img alt="The Illusionist Dry Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>The Illusionist</h3>
+        <div class="origin">Germania · 45%</div>
+        <p class="description">Gin tedesco famoso per il suo straordinario colore blu indaco che cambia tonalità a contatto con la tonica (acidità). Distillato con quattordici botaniche, tra cui ginepro, lavanda, fiori di clitoria ternatea (responsabili del colore), agrumi e spezie.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/cande_gin">
+      <div class="image"><img alt="CandeGIN"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Cande Gin</h3>
+        <div class="origin">Italia · 42%</div>
+        <p class="description">London Dry italiano dal carattere audace, senza aromi artificiali né zucchero. Dieci botaniche: ginepro, liquirizia, iris, coriandolo, mela, yuzu, fico d'India, tè verde, pepe di Sichuan e salvia. Distillazione lenta in alambicco di rame con gin basket.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/malfy">
+      <div class="image"><img alt="Malfy Gin Originale"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Malfy Originale</h3>
+        <div class="origin">Italia · 41%</div>
+        <p class="description">Italian Gin della distilleria Torino Distillati, prodotto a Moncalieri. Sei botaniche con un'enfasi mediterranea: ginepro italiano, coriandolo, angelica, iris, cassia e scorze di limone della Costiera Amalfitana. Pulito, agrumato e versatile.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/malfy_pompelmo">
+      <div class="image"><img alt="Malfy con Pompelmo"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Malfy con Pompelmo</h3>
+        <div class="origin">Italia · 41%</div>
+        <p class="description">Versione di Malfy con pompelmo rosa siciliano in primo piano. Profilo agrumato vivace e leggermente amaricante, bilanciato dal ginepro toscano. Perfetto per Gin Tonic estivi e cocktail freschi.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/malfy_limone">
+      <div class="image"><img alt="Malfy con Limone"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Malfy con Limone</h3>
+        <div class="origin">Italia · 41%</div>
+        <p class="description">Espressione di Malfy con limoni Sfusato della Costiera Amalfitana, raccolti a mano. Profumo intenso e fresco di scorza di limone, ginepro e coriandolo. Vivace, solare, mediterraneo nel cuore.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/nordes">
+      <div class="image"><img alt="Nordés Atlantic Galician Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nordés</h3>
+        <div class="origin">Spagna · Galizia · 40%</div>
+        <p class="description">Atlantic Galician Gin con base di acquavite di uva Albariño. Undici botaniche, di cui sei autoctone della Galizia: salicornia, alga marina, eucalipto, menta, salvia e tè di Hierba Luisa. Floreale, salino e atlantico.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/elephant">
+      <div class="image"><img alt="Elephant Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Elephant</h3>
+        <div class="origin">Germania · 45%</div>
+        <p class="description">Premium gin tedesco con botaniche rare africane: baobab, buchu, devil's claw, lion's tail e mela africana, unite a ginepro e agrumi. Il 15% dei profitti devoluto alla conservazione degli elefanti. Profilo erbaceo, terroso e ricco.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/cubical">
+      <div class="image"><img alt="Cubical Premium Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Cubical</h3>
+        <div class="origin">Spagna · 40%</div>
+        <p class="description">Gin spagnolo della distilleria Williams & Humbert, distillato a Jerez. Riconoscibile per la bottiglia cubica. Botaniche tradizionali con un equilibrio classico tra ginepro, coriandolo e agrumi. Pulito, secco e versatile.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/engine">
+      <div class="image"><img alt="Engine Pure Organic Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Engine</h3>
+        <div class="origin">Italia · Piemonte · 42%</div>
+        <p class="description">Gin biologico italiano dell'Alta Langa, riconoscibile dalla tanica di latta. Botaniche italiane: ginepro delle Langhe, salvia ligure, limone della Costiera Amalfitana, liquirizia calabrese e rosa damascena. Cold compound, fresco e balsamico.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/portobello_road">
+      <div class="image"><img alt="Portobello Road Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Portobello Road</h3>
+        <div class="origin">Inghilterra · 42%</div>
+        <p class="description">London Dry Gin distillato a Notting Hill, nel cuore di Londra. Nove botaniche classiche: ginepro, scorze di limone e arancia amara, coriandolo, angelica, iris, liquirizia, noce moscata e cassia. Equilibrato, leggero e dal carattere britannico autentico.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/brockmans">
+      <div class="image"><img alt="Brockmans Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Brockmans</h3>
+        <div class="origin">Inghilterra · 40%</div>
+        <p class="description">Premium gin "intensely smooth" caratterizzato da botaniche insolite: more, mirtilli, ginepro bulgaro, coriandolo, scorza di arancia di Valencia e radice di angelica. Profilo fruttato, morbido e leggermente dolce, unico nel suo genere.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/j_rose">
+      <div class="image"><img alt="J. Rose Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>J. Rose</h3>
+        <div class="origin">Italia · Puglia · 43%</div>
+        <p class="description">London Dry Gin pugliese ottenuto da distillazione di alcool di cereali e bacche di ginepro selvatico in alambicco di rame. Nove botaniche: ginepro, bergamotto, angelica, cardamomo, coriandolo, corteccia di quercia, fiori di fico d'India, maca peruviana e bucce di mandarino. Caldo e pungente al palato, con delicati sentori agrumati di bergamotto e mandarino su un fondo balsamico.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/monkey_47">
+      <div class="image"><img alt="Monkey 47 Schwarzwald Dry Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Monkey 47</h3>
+        <div class="origin">Germania · Foresta Nera · 47%</div>
+        <p class="description">Schwarzwald Dry Gin culto, prodotto con ben 47 botaniche, molte raccolte nella Foresta Nera, tra cui ginepro, mirtilli rossi, prugnolo, fiori di sambuco, lavanda e pino mugo. Acqua di sorgente locale. Complesso, sfaccettato e leggendario.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/koval">
+      <div class="image"><img alt="Koval Dry Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Koval</h3>
+        <div class="origin">Stati Uniti · 47%</div>
+        <p class="description">Craft gin di Chicago prodotto da grano biologico. Distillazione "heart cut" che preserva solo il cuore del distillato. Botaniche di ginepro, coriandolo, semi di anice, semi di cardamomo e altre erbe. Profilo pulito, leggermente speziato e biologico.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/tassoni">
+      <div class="image"><img alt="Tassoni Gin Superfine al Cedro"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Tassoni Cedro</h3>
+        <div class="origin">Italia · 43%</div>
+        <p class="description">Gin Superfine al Cedro Diamante, distillato in alambicchi di rame del 1872. Nove botaniche tra cui ginepro, scorza di cedro Diamante, foglie di fico e alloro, coriandolo, bergamotto, rosa centifolia, angelica e iris. Aromatico, fresco e profondamente italiano.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/silent_pool">
+      <div class="image"><img alt="Silent Pool Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Silent Pool</h3>
+        <div class="origin">Inghilterra · 43%</div>
+        <p class="description">Gin artigianale del Surrey distillato accanto al famoso lago Silent Pool. Ventiquattro botaniche tra cui ginepro, miele locale, camomilla, fiori di sambuco, kaffir lime e lavanda. Profilo floreale ricco e setoso, bottiglia turchese iconica.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/macaronesian">
+      <div class="image"><img alt="Macaronesian White Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Macaronesian</h3>
+        <div class="origin">Spagna · Isole Canarie · 40%</div>
+        <p class="description">Gin delle Canarie con botaniche endemiche della laurisilva e acqua filtrata da rocce vulcaniche. Ginepro locale, cardamomo, angelica, liquirizia, scorze di limone e arancia. Morbido, dissetante, dall'inconfondibile bottiglia di ceramica bianca.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/gin/amuerte">
+      <div class="image"><img alt="Amuerte Coca Leaf Gin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Amuerte Black</h3>
+        <div class="origin">Belgio · 43%</div>
+        <p class="description">Unico gin al mondo prodotto con foglie di coca peruviane (private del principio attivo). Botaniche esotiche: tamarillo, papaya, frutto del drago, physalis peruviana e scorze d'arancia. Bottiglia di design rifinita in oro 24 carati. Esperienza sensoriale fuori dal comune.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<div class="section-divider"><div class="line"></div><div class="ornament-mark"></div><div class="line"></div></div>
+
+<!-- SEZIONE WHISKEY -->
+<section class="category" id="whiskey">
+  <div class="category-title">
+    <div class="ornament"><span>Capitolo II</span></div>
+    <h2>Whiskey</h2>
+  </div>
+
+  <div class="grid">
+    <article class="item" data-img="immagini/whiskey/jack_daniels">
+      <div class="image"><img alt="Jack Daniel's Old No. 7"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Jack Daniel's</h3>
+        <div class="origin">USA · Tennessee · 40%</div>
+        <p class="description">Iconico Tennessee Whiskey filtrato attraverso uno spesso strato di carbone d'acero (Lincoln County Process) e invecchiato in botti nuove di rovere americano carbonizzato. Profilo morbido con note di vaniglia, caramello, quercia tostata e una distintiva impronta dolce.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/gentleman_jack">
+      <div class="image"><img alt="Gentleman Jack"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Gentleman Jack</h3>
+        <div class="origin">USA · Tennessee · 40%</div>
+        <p class="description">Tennessee Whiskey doppiamente filtrato attraverso carbone d'acero (prima e dopo l'invecchiamento), processo unico che dona straordinaria morbidezza. Note di vaniglia, caramello, agrumi e rovere, palato vellutato ed elegante.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/caol_ila">
+      <div class="image"><img alt="Caol Ila"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Caol Ila</h3>
+        <div class="origin">Scozia · Islay · 43%</div>
+        <p class="description">Single Malt Scotch della distilleria affacciata sullo stretto di Islay. Profilo torbato ma più delicato degli altri Islay, con note di affumicatura iodata, frutti marini, pepe bianco e leggero limone. Elegante e raffinato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/talisker">
+      <div class="image"><img alt="Talisker"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Talisker</h3>
+        <div class="origin">Scozia · Isola di Skye · 45,8%</div>
+        <p class="description">Single Malt dell'unica distilleria dell'isola di Skye, affacciata sull'oceano. Profilo potente, pepato e marino con note di torba dolce, sale, fumo e una caratteristica "esplosione" di pepe sul finale. Whisky di carattere.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/lagavulin">
+      <div class="image"><img alt="Lagavulin"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Lagavulin</h3>
+        <div class="origin">Scozia · Islay · 43%</div>
+        <p class="description">Icona dei single malt torbati di Islay, distillato lentamente nei tradizionali alambicchi a pera. Note di torba intensa, affumicatura medicinale, alghe, frutta secca e dolcezza di sherry. Whisky maestoso, da meditazione.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/royal_brackla">
+      <div class="image"><img alt="Royal Brackla"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Royal Brackla</h3>
+        <div class="origin">Scozia · Highlands · 40%</div>
+        <p class="description">Single Malt delle Highlands, prima distilleria ad aver ricevuto il "Royal Warrant" da Re Guglielmo IV nel 1835. Profilo elegante, fruttato e dolce con note di mela, miele, agrumi canditi, vaniglia e una raffinata morbidezza.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/akashi">
+      <div class="image"><img alt="Akashi Japanese Whisky"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Akashi</h3>
+        <div class="origin">Giappone · 40%</div>
+        <p class="description">Blended whisky giapponese prodotto dalla distilleria White Oak (Eigashima Shuzo) nella prefettura di Hyogo, una delle più antiche del Sol Levante. Profilo elegante e bilanciato con note di malto, vaniglia, mela e leggera affumicatura.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/ardbeg">
+      <div class="image"><img alt="Ardbeg"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Ardbeg</h3>
+        <div class="origin">Scozia · Islay · 46%</div>
+        <p class="description">Single Malt cult di Islay, tra i più torbati al mondo (54 ppm di fenoli). Profilo potente con torba intensa, affumicatura, catrame, agrumi, vaniglia e iodio. Imbottigliato non filtrato a freddo per preservare il carattere.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/jameson">
+      <div class="image"><img alt="Jameson Irish Whiskey"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Jameson</h3>
+        <div class="origin">Irlanda · 40%</div>
+        <p class="description">Iconico Blended Irish Whiskey prodotto a Midleton dal 1780, distillato tre volte secondo tradizione irlandese. Triplo invecchiamento in botti ex-bourbon e ex-sherry. Profilo morbido, dolce e versatile con note di vaniglia, miele e nocciole tostate.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/bulleit_bourbon">
+      <div class="image"><img alt="Bulleit Bourbon"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Bulleit Bourbon</h3>
+        <div class="origin">USA · Kentucky · 45%</div>
+        <p class="description">Kentucky Straight Bourbon con un'insolita alta percentuale di segale (28%), che gli conferisce un profilo speziato e deciso. Note di vaniglia, miele, segale, pepe nero e quercia tostata. Iconica bottiglia ispirata al 1800.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/whiskey/woodford_reserve">
+      <div class="image"><img alt="Woodford Reserve"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Woodford Reserve</h3>
+        <div class="origin">USA · Kentucky · 43,2%</div>
+        <p class="description">Premium Kentucky Straight Bourbon distillato tre volte nei tradizionali alambicchi di rame Pot Still. Profilo ricco e complesso con oltre 200 note aromatiche identificate: vaniglia, caramello, frutta secca, miele, agrumi canditi e dolci spezie.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<div class="section-divider"><div class="line"></div><div class="ornament-mark"></div><div class="line"></div></div>
+
+<!-- SEZIONE RUM -->
+<section class="category" id="rum">
+  <div class="category-title">
+    <div class="ornament"><span>Capitolo III</span></div>
+    <h2>Rum</h2>
+  </div>
+
+  <div class="grid">
+    <article class="item" data-img="immagini/rum/pampero_aniversario">
+      <div class="image"><img alt="Pampero Aniversario"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Pampero Aniversario</h3>
+        <div class="origin">Venezuela · 40%</div>
+        <p class="description">Riserva premiata creata nel 1963 per il 25° anniversario della distilleria. Blend di rum invecchiati 4-8 anni in botti ex-bourbon ed ex-sherry. Note di vaniglia, caramello, sherry, frutta secca, scorza d'arancia e cacao. Iconica bottiglia avvolta in pelle del Llanero.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/ryoma">
+      <div class="image"><img alt="Ryoma 7 anni"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Ryoma 7 Y.O.</h3>
+        <div class="origin">Giappone · 40%</div>
+        <p class="description">Rum giapponese della Kikusui Distillery (Shikoku), distillato da puro succo di canna fresca e invecchiato 7 anni in botti di quercia. Fermentato con lieviti del sake. Profilo unico con note di mango, frutto della passione, cioccolato al latte e zenzero.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/ah_riise_non_plus_ultra">
+      <div class="image"><img alt="A.H. Riise Non Plus Ultra"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>A.H. Riise Non Plus Ultra</h3>
+        <div class="origin">Caraibi/Danimarca · 42%</div>
+        <p class="description">Edizione limitata a sole 3.000 bottiglie l'anno, blend selezionato a mano dal master distiller con maturazione in botti ex-Sauternes. Ricco e dolce: tabacco, caramello, vaniglia, melassa, sherry e frutti tropicali. Finale lungo ed elegante.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/plantation_fiji_2009">
+      <div class="image"><img alt="Plantation Fiji 2009"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Plantation Fiji 2009</h3>
+        <div class="origin">Figi · 50,3%</div>
+        <p class="description">Single cask millesimato 2009 della distilleria South Pacific Distilleries delle Figi. Doppio invecchiamento tropicale e francese, finitura in botti di cognac. Profilo intenso e funky con note di frutta tropicale matura, spezie, melassa e quercia.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/plantation_fiji_sealander">
+      <div class="image"><img alt="Plantation Fiji Sealander"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Plantation Fiji Sealander</h3>
+        <div class="origin">Figi · 40%</div>
+        <p class="description">Espressione delle Figi con profilo più morbido e accessibile. Note di ananas, banana matura, vaniglia e dolce melassa caraibica. Versatile, ideale sia in degustazione che in miscelazione.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/plantation_xo_20_anniversary">
+      <div class="image"><img alt="Plantation XO 20th Anniversary"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Plantation XO 20th Anniversary</h3>
+        <div class="origin">Barbados · 40%</div>
+        <p class="description">Riserva top creata per il 20° anniversario della casa Plantation (oggi Planteray). Blend di rum dei migliori barili invecchiati 12-20 anni a Barbados e finiti in Francia in botti di cognac. Ricco e complesso: vaniglia, cacao, agrumi canditi, spezie dolci.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/el_ron_prohibido">
+      <div class="image"><img alt="El Ron Prohibido Habanero"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>El Ron Prohibido</h3>
+        <div class="origin">Messico · 40%</div>
+        <p class="description">Rum messicano "proibito" da Filippo V di Borbone nel 1700, ora rinato. Invecchiato 12 anni con metodo Solera in botti ex-sherry Pedro Ximénez, con aggiunta di vino passito. Note di uva passa, prugna, vaniglia, rovere, caffè e cioccolato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/watsons">
+      <div class="image"><img alt="Watson's Trawler Rum"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Watson's Trawler</h3>
+        <div class="origin">Guyana/Barbados · 40%</div>
+        <p class="description">Dark rum di tradizione Navy con oltre un secolo di storia, blend di rum invecchiati separatamente in Guyana (Demerara) e Barbados. Profilo robusto con melassa, caramello, cannella, datteri, spezie e legno tostato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/barcelo_imperial">
+      <div class="image"><img alt="Ron Barceló Imperial"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Barceló Imperial</h3>
+        <div class="origin">Repubblica Dominicana · 38%</div>
+        <p class="description">Rum dominicano di fascia premium, distillato dal succo di canna fresca e invecchiato in botti di rovere bianco americano per un minimo di 6 anni. Profilo morbido e bilanciato con note di vaniglia, caramello, cioccolato e quercia.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/rhum_jm">
+      <div class="image"><img alt="Rhum J.M VSOP"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Rhum J.M</h3>
+        <div class="origin">Martinica · 43%</div>
+        <p class="description">Storico rhum agricole AOC della Martinica, prodotto a Macouba ai piedi del vulcano Pelée con puro succo di canna fresca. Invecchiato in botti ex-bourbon. Profilo elegante con note di canna fresca, frutta tropicale, spezie dolci e legno nobile.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/j_bally_7">
+      <div class="image"><img alt="J. Bally 7 anni"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>J. Bally 7 Y.O.</h3>
+        <div class="origin">Martinica · 45%</div>
+        <p class="description">Rhum agricole AOC nella celebre bottiglia piramidale degli anni '30. Invecchiato 7 anni in botti di rovere del Limousin. Profilo complesso ed elegante con foglia di sigaro, sottobosco, frutta secca, cannella, vaniglia e cioccolato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/st_james_xo">
+      <div class="image"><img alt="Saint James XO"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Saint James XO</h3>
+        <div class="origin">Martinica · 43%</div>
+        <p class="description">Rhum agricole AOC della distilleria fondata nel 1765, tra le più antiche della Martinica. Riserva XO con invecchiamento prolungato in piccole botti di rovere. Profilo ricco e maturo con note di frutta secca, vaniglia, spezie dolci e legno tostato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/bumbu">
+      <div class="image"><img alt="Bumbu The Original"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Bumbu</h3>
+        <div class="origin">Barbados · 40%</div>
+        <p class="description">Craft rum delle Indie Occidentali ispirato alle ricette dei marinai del XVI secolo. Distillato a Barbados e arricchito con spezie caraibiche tra cui cannella, vaniglia, banana e noce di cocco. Profilo dolce, esotico e morbido.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/clement">
+      <div class="image"><img alt="Clément VSOP"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Clément</h3>
+        <div class="origin">Martinica · 40%</div>
+        <p class="description">Iconica casa di rhum agricole AOC della Martinica, fondata nel 1887. Pioniera del rum invecchiato dei Caraibi. Profilo raffinato con note di canna fresca, vaniglia, agrumi canditi, frutta esotica e dolci spezie. Eleganza francese ai tropici.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/appleton_12">
+      <div class="image"><img alt="Appleton Estate 12 anni Rare Casks"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Appleton 12 Y.O. Estate</h3>
+        <div class="origin">Giamaica · 43%</div>
+        <p class="description">Rum giamaicano della storica Appleton Estate (1749), nella Nassau Valley. Blend di rum di almeno 12 anni invecchiati nel clima tropicale. Profilo ricco e complesso con scorza d'arancia, miele, caffè, vaniglia, melassa e il caratteristico "funk" giamaicano.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/jamaica_remember">
+      <div class="image"><img alt="Rum Jamaica Remember"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Jamaica Remember</h3>
+        <div class="origin">Giamaica · 40%</div>
+        <p class="description">Rum giamaicano dal carattere tradizionale, prodotto da pot still e invecchiato in botti di rovere. Profilo intenso e aromatico con il tipico stile funky giamaicano: frutta tropicale matura, melassa, spezie e quercia.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/santa_teresa_1796">
+      <div class="image"><img alt="Santa Teresa 1796"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Santa Teresa 1796</h3>
+        <div class="origin">Venezuela · 40%</div>
+        <p class="description">Ron Antiguo de Solera della storica Hacienda Santa Teresa (1796), Valle di Aragua. Triplo invecchiamento con metodo Solera, blend di rum fino a 35 anni. Profilo elegante e secco con cioccolato fondente, vaniglia, cuoio, tabacco, prugna, miele e pepe.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/el_dorado_12">
+      <div class="image"><img alt="El Dorado 12 Y.O."><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>El Dorado 12 Y.O.</h3>
+        <div class="origin">Guyana · 40%</div>
+        <p class="description">Storico Demerara Rum della Demerara Distillers, blend invecchiato 12 anni in botti di rovere ex-bourbon. Profilo ricco e morbido con note di melassa, caramello, frutta secca, cioccolato amaro e spezie. Stile Demerara classico.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/el_dorado_15">
+      <div class="image"><img alt="El Dorado 15 Y.O."><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>El Dorado 15 Y.O.</h3>
+        <div class="origin">Guyana · 43%</div>
+        <p class="description">Espressione iconica della Demerara, blend di rum invecchiati almeno 15 anni in botti di rovere. Vincitore di numerosi premi internazionali. Profilo ricco e avvolgente con caramello, melassa, miele, vaniglia, frutta tropicale e legno tostato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/rum/el_dorado_21">
+      <div class="image"><img alt="El Dorado 21 Y.O."><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>El Dorado 21 Y.O.</h3>
+        <div class="origin">Guyana · 43%</div>
+        <p class="description">Riserva straordinaria di Demerara, blend di rum invecchiati almeno 21 anni nel clima tropicale della Guyana. Profilo opulento e complesso con cioccolato fondente, caffè, frutta esotica candita, miele scuro, tabacco e quercia. Da meditazione.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<div class="section-divider"><div class="line"></div><div class="ornament-mark"></div><div class="line"></div></div>
+
+<!-- SEZIONE AMARI -->
+<section class="category" id="amari">
+  <div class="category-title">
+    <div class="ornament"><span>Capitolo IV</span></div>
+    <h2>Amari</h2>
+  </div>
+
+  <div class="grid">
+    <article class="item" data-img="immagini/amari/curtense">
+  <div class="image"><img alt="Amaro Amarama"><div class="placeholder">Immagine</div></div>
+  <div class="content">
+    <h3>Amaro Curtense</h3>
+    <div class="origin">Italia · Lombardia · 30%</div>
+    <p class="description">Amaro artigianale del territorio del Sebino prodotto da La Curtense in piccoli lotti secondo metodi tradizionali. Botaniche lavorate separatamente e infuse a differenti gradazioni per valorizzarne aromi e proprietà digestive: angelica, liquirizia, china, ginepro, artemisia, anice, menta, lavanda e scorze d’agrumi. Erbaceo, intenso e autentico.</p>
+  </div>
+</article>
+
+    <article class="item" data-img="immagini/amari/cipriani_7_parti">
+      <div class="image"><img alt="Cipriani Amaro 7 Parti"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Cipriani 7 Parti</h3>
+        <div class="origin">Italia · Venezia · 35%</div>
+        <p class="description">Amaro firmato Cipriani (Harry's Bar), prodotto con il pregiato Carciofo Violetto coltivato dalla famiglia sull'isola di Sant'Antonio di Torcello, in laguna. Sette ingredienti in totale: il carciofo è protagonista, accompagnato da sei erbe e piante aromatiche mediterranee. Profumo rotondo, gusto morbido e avvolgente.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/amari/amara">
+      <div class="image"><img alt="Amaro Amara"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Amara</h3>
+        <div class="origin">Italia · Sicilia · 30%</div>
+        <p class="description">Amaro siciliano che nasce alle pendici dell'Etna. Selezionate scorze di Arancia Rossa di Sicilia IGP, acqua delle sorgenti vulcaniche ed erbe spontanee dell'Etna. Intensi profumi di agrumi, zagara e note erbacee, in equilibrio tra dolcezza e gusto deciso. Da servire ghiacciato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/amari/jefferson">
+      <div class="image"><img alt="Jefferson Amaro Importante"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Jefferson</h3>
+        <div class="origin">Italia · Calabria · 30%</div>
+        <p class="description">Amaro calabrese del Vecchio Magazzino Doganale, premiato come Miglior Liquore al Mondo ai World Liqueur Awards 2018. Botaniche calabresi raccolte a mano: bergamotto, arance amare e dolci, limone, pompelmo, rosmarino, origano, genziana, eucalipto, rabarbaro, assenzio e vaniglia. Intenso, morbido, mediterraneo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/amari/bomba_carta">
+      <div class="image"><img alt="Amaro Bomba Carta"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Bomba Carta</h3>
+        <div class="origin">Italia · Sardegna · 33%</div>
+        <p class="description">Amaro sardo della distilleria Silvio Carta, premiato con Ampolla d'Oro 2023. Erbe spontanee dell'orto botanico aziendale (santolina, iperico, elicriso, timo, artemisia) dolcificate con il raro miele di corbezzolo sardo. Bottiglia avvolta in carta che richiama le "bombe Molotov" per il carattere esplosivo. Gusto pieno, balsamico, persistente.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/amari/basanotto">
+      <div class="image"><img alt="Basanotto Amaro"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Basanotto</h3>
+        <div class="origin">Italia · Liguria · 22%</div>
+        <p class="description">Amaro ligure di Origine Liquori Vallebormida, premiato come Miglior Digestivo al Mondo (World Drinks Awards 2024). Materie prime tipiche della Liguria: basilico genovese DOP, chinotto di Savona (presidio Slow Food), salvia bio, scorze di limone bio e menta bio. Fresco, agrumato ed erbaceo. Filtrato a freddo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/amari/amaro_del_farmacista">
+      <div class="image"><img alt="Amaro del Farmacista"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Amaro del Farmacista</h3>
+        <div class="origin">Italia · Lombardia · 27%</div>
+        <p class="description">Amaro artigianale prodotto secondo la ricetta originale del 1948 della Farmacia Minelli di Toscolano Maderno (BS). Cinque erbe dalla comprovata azione digestiva: arancio amaro, china, menta, assenzio e genziana. Gusto amabile, gradazione moderata, ideale come digestivo o aperitivo.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/amari/camatti">
+      <div class="image"><img alt="Amaro Camatti"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Camatti</h3>
+        <div class="origin">Italia · Liguria · 20%</div>
+        <p class="description">Storico amaro genovese creato nel 1924 a Recco da Umberto Briganti, oggi prodotto dalla Distilleria Sangallo Cinque Terre. Premiato Miglior Amaro al Mondo ai World Liqueur Awards 2023. Infusione di mandorlo, arancio amaro, china, menta e genziana. Iconica bottiglia rossa, simbolo di Genova. Morbido e avvolgente.</p>
+      </div>
+    </article>
+
+<article class="item" data-img="immagini/amari/walcher_noisetto">
+  <div class="image"><img alt="Walcher Noisetto"><div class="placeholder">Immagine</div></div>
+  <div class="content">
+    <h3>Walcher Noisetto</h3>
+    <div class="origin">Italia · Alto Adige · 21%</div>
+    <p class="description">Liquore altoatesino della distilleria Walcher, prodotto con nocciole del Piemonte leggermente tostate, rum caraibico e distillato di cacao. Profumo intenso di nocciola e nougat, gusto morbido ed equilibrato con finale persistente e avvolgente. Ideale liscio, nel caffè o su gelato alla vaniglia.</p>
+  </div>
+</article>
+</section>
+
+<div class="section-divider"><div class="line"></div><div class="ornament-mark"></div><div class="line"></div></div>
+
+<!-- SEZIONE GRAPPE -->
+<section class="category" id="grappe">
+  <div class="category-title">
+    <div class="ornament"><span>Capitolo V</span></div>
+    <h2>Grappe</h2>
+  </div>
+
+  <div class="grid">
+    <article class="item" data-img="immagini/grappe/nome_grappa_1">
+      <div class="image"><img alt="Nome Grappa 1"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 1</h3>
+        <div class="origin">Italia / Regione</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/grappe/nome_grappa_2">
+      <div class="image"><img alt="Nome Grappa 2"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 2</h3>
+        <div class="origin">Origine</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/grappe/nome_grappa_3">
+      <div class="image"><img alt="Nome Grappa 3"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 3</h3>
+        <div class="origin">Origine</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/grappe/nome_grappa_4">
+      <div class="image"><img alt="Nome Grappa 4"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 4</h3>
+        <div class="origin">Origine</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/grappe/nome_grappa_5">
+      <div class="image"><img alt="Nome Grappa 5"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 5</h3>
+        <div class="origin">Origine</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/grappe/nome_grappa_6">
+      <div class="image"><img alt="Nome Grappa 6"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 6</h3>
+        <div class="origin">Origine</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/grappe/nome_grappa_7">
+      <div class="image"><img alt="Nome Grappa 7"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 7</h3>
+        <div class="origin">Origine</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+
+    <article class="item" data-img="immagini/grappe/nome_grappa_8">
+      <div class="image"><img alt="Nome Grappa 8"><div class="placeholder">Immagine</div></div>
+      <div class="content">
+        <h3>Nome Grappa 8</h3>
+        <div class="origin">Origine</div>
+        <p class="description">Descrizione del distillato.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="mark">Bar Museo</div>
+  <div>Bevi responsabilmente</div>
+</footer>
+
+<!-- AUTO-RILEVAMENTO ESTENSIONI IMMAGINI -->
+<script>
+  // Per ogni card cerca il file immagine provando varie estensioni.
+  // Carica la prima estensione che esiste; altrimenti lascia il placeholder.
+  const ESTENSIONI = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'JPG', 'JPEG', 'PNG', 'WEBP'];
+
+  document.querySelectorAll('.item[data-img]').forEach(card => {
+    const basePath = card.dataset.img;
+    const img = card.querySelector('.image img');
+    if (!img || !basePath) return;
+
+    let i = 0;
+    function prova() {
+      if (i >= ESTENSIONI.length) return;
+      const ext = ESTENSIONI[i++];
+      const test = new Image();
+      test.onload = () => {
+        img.src = `${basePath}.${ext}`;
+        img.classList.add('loaded');
+      };
+      test.onerror = prova;
+      test.src = `${basePath}.${ext}`;
+    }
+    prova();
+  });
+</script>
+
+</body>
+</html>
