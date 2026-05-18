@@ -1,4 +1,4 @@
-// Auto-rilevamento estensioni immagini
+// Auto-rilevamento estensioni immagini (senza errori in console)
 const ESTENSIONI = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'JPG', 'JPEG', 'PNG', 'WEBP'];
 
 document.querySelectorAll('.item[data-img]').forEach(card => {
@@ -6,19 +6,19 @@ document.querySelectorAll('.item[data-img]').forEach(card => {
   const img = card.querySelector('.image img');
   if (!img || !basePath) return;
 
-  let i = 0;
-  function prova() {
-    if (i >= ESTENSIONI.length) return;
-    const ext = ESTENSIONI[i++];
-    const test = new Image();
-    test.onload = () => {
-      img.src = `${basePath}.${ext}`;
-      img.classList.add('loaded');
-    };
-    test.onerror = prova;
-    test.src = `${basePath}.${ext}`;
-  }
-  prova();
+  (async () => {
+    for (const ext of ESTENSIONI) {
+      const url = `${basePath}.${ext}`;
+      try {
+        const res = await fetch(url, { method: 'HEAD' });
+        if (res.ok) {
+          img.src = url;
+          img.classList.add('loaded');
+          return;
+        }
+      } catch {}
+    }
+  })();
 });
 
 // Animazioni on scroll (IntersectionObserver)
@@ -40,41 +40,12 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.item, .section-divider').forEach(el => observer.observe(el));
 
-// Filtri gin — segmented control con sliding pill
+// Filtri gin — pill group
 const filterBar = document.getElementById('gin-filters');
 if (filterBar) {
   const grid = document.getElementById('gin-grid');
   const items = grid.querySelectorAll('.item[data-category]');
-  const slider = filterBar.querySelector('.slider');
   const buttons = filterBar.querySelectorAll('button[data-filter]');
-
-  function moveSlider(btn) {
-    const barRect = filterBar.getBoundingClientRect();
-    const btnRect = btn.getBoundingClientRect();
-    const offsetLeft = btnRect.left - barRect.left - 3 + filterBar.scrollLeft;
-    slider.style.width = btnRect.width + 'px';
-    slider.style.transform = `translateX(${offsetLeft}px)`;
-  }
-
-  // Posizione iniziale
-  const activeBtn = filterBar.querySelector('.active');
-  if (activeBtn) {
-    slider.style.transition = 'none';
-    moveSlider(activeBtn);
-    requestAnimationFrame(() => {
-      slider.style.transition = '';
-    });
-  }
-
-  // Ricalcola su resize/orientamento
-  window.addEventListener('resize', () => {
-    const current = filterBar.querySelector('.active');
-    if (current) {
-      slider.style.transition = 'none';
-      moveSlider(current);
-      requestAnimationFrame(() => { slider.style.transition = ''; });
-    }
-  });
 
   filterBar.addEventListener('click', e => {
     const btn = e.target.closest('button[data-filter]');
@@ -82,7 +53,6 @@ if (filterBar) {
 
     filterBar.querySelector('.active').classList.remove('active');
     btn.classList.add('active');
-    moveSlider(btn);
 
     const filter = btn.dataset.filter;
     items.forEach(item => {
