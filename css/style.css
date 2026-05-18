@@ -395,10 +395,6 @@ nav.categories a:active { color: var(--accent); }
   border: none;
 }
 
-.item.filter-enter {
-  animation: fadeInUp 0.4s ease-out forwards;
-}
-
 /* ─── Pulsante torna su ─── */
 .back-to-top {
   position: fixed;

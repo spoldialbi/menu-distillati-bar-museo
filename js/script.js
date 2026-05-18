@@ -8,25 +8,26 @@ document.querySelectorAll('.item[data-img]').forEach(card => {
 });
 
 // Animazioni on scroll (IntersectionObserver)
-const animatedEls = document.querySelectorAll('.item, .section-divider');
-
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
+    const el = entry.target;
     if (entry.isIntersecting) {
-      const el = entry.target;
-      if (el.classList.contains('visible')) return;
-      if (el.classList.contains('item')) {
-        const siblings = Array.from(el.parentElement.children).filter(c => c.classList.contains('item') && !c.classList.contains('hidden-by-filter'));
-        const idx = siblings.indexOf(el) % 2;
-        setTimeout(() => el.classList.add('visible'), idx * 80);
-      } else {
-        el.classList.add('visible');
+      if (!el.classList.contains('visible')) {
+        if (el.classList.contains('item')) {
+          const siblings = Array.from(el.parentElement.children).filter(c => c.classList.contains('item') && !c.classList.contains('hidden-by-filter'));
+          const idx = siblings.indexOf(el) % 2;
+          setTimeout(() => el.classList.add('visible'), idx * 80);
+        } else {
+          el.classList.add('visible');
+        }
       }
+    } else {
+      el.classList.remove('visible');
     }
   });
 }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 
-animatedEls.forEach(el => observer.observe(el));
+document.querySelectorAll('.item, .section-divider').forEach(el => observer.observe(el));
 
 // Filtri gin — pill group
 const filterBar = document.getElementById('gin-filters');
@@ -43,14 +44,8 @@ if (filterBar) {
 
     const filter = btn.dataset.filter;
     items.forEach(item => {
-      const wasHidden = item.classList.contains('hidden-by-filter');
-      const show = filter === 'tutti' || item.dataset.category === filter;
-      if (show) {
+      if (filter === 'tutti' || item.dataset.category === filter) {
         item.classList.remove('hidden-by-filter');
-        if (wasHidden) {
-          item.classList.add('filter-enter');
-          setTimeout(() => item.classList.remove('filter-enter'), 400);
-        }
       } else {
         item.classList.add('hidden-by-filter');
       }
@@ -72,7 +67,6 @@ if (backBtn) {
     }
   }, { passive: true });
   backBtn.addEventListener('click', () => {
-    animatedEls.forEach(el => el.classList.remove('visible'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
